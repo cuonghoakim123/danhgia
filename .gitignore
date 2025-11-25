@@ -1,0 +1,82 @@
+# .gitignore for Kyna English Evaluation System
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# PHP
+composer.phar
+/vendor/
+composer.lock
+
+# Database
+*.sql.gz
+*.sql.zip
+backup/
+
+# PDF Output
+pdf_output/*.pdf
+!pdf_output/.gitkeep
+
+# Logs
+*.log
+error_log
+access_log
+logs/
+
+# Temporary Files
+tmp/
+temp/
+cache/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Upload Files
+uploads/*
+!uploads/.gitkeep
+
+# Node modules (if using npm/webpack)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build files
+dist/
+build/
+
+# Mac
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Backup files
+*.bak
+*.backup
+*.old
+*~
+
+# PHPStorm
+.phpstorm.meta.php
+_ide_helper.php
+
