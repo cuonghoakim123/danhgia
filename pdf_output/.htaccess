@@ -1,0 +1,15 @@
+# Deny all access to this directory
+Options -Indexes
+<Files *>
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Allow only PDF files to be accessed
+<FilesMatch "\.(pdf)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
+
+# Prevent PHP execution
+php_flag engine off
