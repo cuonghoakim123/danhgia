@@ -65,9 +65,7 @@ ServerSignature Off
 # ========================================
 
 # Prevent execution of PHP in upload directories
-<DirectoryMatch "^.*/pdf_output/">
-    php_flag engine off
-</DirectoryMatch>
+# Note: DirectoryMatch moved to Apache config or use separate .htaccess in pdf_output/
 
 # ========================================
 # Performance Optimization

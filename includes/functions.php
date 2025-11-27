@@ -122,8 +122,8 @@ function createEvaluation($data) {
         // Insert evaluation
         query(
             "INSERT INTO evaluations 
-            (student_id, teacher_name, course_id, program_name, evaluation_date, strengths, improvements, summary) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            (student_id, teacher_name, course_id, program_name, evaluation_date, strengths, improvements, strengths_evaluation, improvements_evaluation, summary) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
                 $studentId,
                 $data['teacher_name'] ?? '',
@@ -132,6 +132,8 @@ function createEvaluation($data) {
                 $data['evaluation_date'],
                 $data['strengths'],
                 $data['improvements'],
+                $data['strengths_evaluation'] ?? '',
+                $data['improvements_evaluation'] ?? '',
                 $data['summary'] ?? ''
             ]
         );
@@ -192,6 +194,14 @@ function getLearningPathsByEvaluationId($evaluationId) {
     return getAll(
         "SELECT * FROM learning_paths WHERE evaluation_id = ? ORDER BY display_order",
         [$evaluationId]
+    );
+}
+
+// Get all learning outcome templates
+function getLearningOutcomeTemplates() {
+    return getAll(
+        "SELECT * FROM learning_outcome_templates WHERE is_active = 1 ORDER BY display_order, id",
+        []
     );
 }
 
@@ -356,7 +366,7 @@ function getAvailableMonths() {
         "SELECT DISTINCT 
             YEAR(evaluation_date) as year,
             MONTH(evaluation_date) as month,
-            DATE_FORMAT(evaluation_date, '%Y-%m') as year_month,
+            DATE_FORMAT(evaluation_date, '%Y-%m') as `year_month`,
             DATE_FORMAT(evaluation_date, '%M %Y') as display
          FROM evaluations
          ORDER BY year DESC, month DESC"

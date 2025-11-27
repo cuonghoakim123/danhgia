@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: kyna-english-web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./pdf_output:/var/www/html/pdf_output
+      - ./logs:/var/www/html/logs
+    environment:
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data
+    depends_on:
+      - db
+    networks:
+      - kyna-network
+
+  db:
+    image: mariadb:11.2
+    container_name: kyna-english-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password_change_this
+      MYSQL_DATABASE: kyna_english
+      MYSQL_USER: kyna_user
+      MYSQL_PASSWORD: kyna_password_change_this
+    volumes:
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - kyna-network
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: kyna-english-phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root_password_change_this
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+    networks:
+      - kyna-network
+
+volumes:
+  db_data:
+
+networks:
+  kyna-network:
+    driver: bridge

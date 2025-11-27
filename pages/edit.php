@@ -32,6 +32,7 @@ $learningPaths = getLearningPathsByEvaluationId($evaluationId);
 $strengths = getCriteriaByType('strengths');
 $improvements = getCriteriaByType('improvements');
 $courses = getAllCourses();
+$learningOutcomeTemplates = getLearningOutcomeTemplates();
 
 // Parse selected strengths and improvements
 $selectedStrengths = array_filter(explode("\n• ", $evaluation['strengths']));
@@ -61,6 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             teacher_name = ?,
             strengths = ?,
             improvements = ?,
+            strengths_evaluation = ?,
+            improvements_evaluation = ?,
             summary = ?
         WHERE id = ?",
         [
@@ -70,6 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_POST['teacher_name'] ?? '',
             $strengthsText,
             $improvementsText,
+            $_POST['strengths_evaluation'] ?? '',
+            $_POST['improvements_evaluation'] ?? '',
             $_POST['summary'] ?? '',
             $evaluationId
         ]
@@ -81,6 +86,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Insert new learning paths
     if (!empty($_POST['learning_paths'])) {
         foreach ($_POST['learning_paths'] as $index => $path) {
+            // Use custom value if provided, otherwise use selected template
+            $learningOutcomes = '';
+            if (!empty($path['learning_outcomes_custom'])) {
+                $learningOutcomes = $path['learning_outcomes_custom'];
+            } elseif (!empty($path['learning_outcomes']) && $path['learning_outcomes'] !== '__custom__') {
+                $learningOutcomes = $path['learning_outcomes'];
+            }
+            
             query(
                 "INSERT INTO learning_paths 
                 (evaluation_id, course_name, lessons_count, learning_outcomes, topics, display_order) 
@@ -89,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $evaluationId,
                     $path['course_name'],
                     $path['lessons_count'],
-                    $path['learning_outcomes'],
+                    $learningOutcomes,
                     $path['topics'] ?? '',
                     $index
                 ]
@@ -184,6 +197,16 @@ ob_start();
                         </div>
                     <?php endforeach; ?>
                 </div>
+                <div class="mt-3">
+                    <label for="strengths_evaluation" class="form-label">
+                        Đánh giá giác
+                    </label>
+                    <textarea class="form-control" 
+                              id="strengths_evaluation" 
+                              name="strengths_evaluation"
+                              rows="3"
+                              placeholder="Nhập đánh giá giác cho các điểm tốt"><?php echo htmlspecialchars($evaluation['strengths_evaluation'] ?? ''); ?></textarea>
+                </div>
             </div>
         </div>
         
@@ -207,6 +230,16 @@ ob_start();
                             </label>
                         </div>
                     <?php endforeach; ?>
+                </div>
+                <div class="mt-3">
+                    <label for="improvements_evaluation" class="form-label">
+                        Đánh giá giác
+                    </label>
+                    <textarea class="form-control" 
+                              id="improvements_evaluation" 
+                              name="improvements_evaluation"
+                              rows="3"
+                              placeholder="Nhập đánh giá giác cho các điểm cần cải thiện"><?php echo htmlspecialchars($evaluation['improvements_evaluation'] ?? ''); ?></textarea>
                 </div>
             </div>
         </div>
@@ -260,14 +293,12 @@ ob_start();
                     </div>
                     
                     <div class="col-md-6">
-                        <label for="teacher_name" class="form-label">
-                            Tên giáo viên
+                        <label class="form-label">
+                            Thời gian học là 30 buổi
                         </label>
-                        <input type="text" 
-                               class="form-control" 
-                               id="teacher_name" 
-                               name="teacher_name"
-                               value="<?php echo htmlspecialchars($evaluation['teacher_name'] ?? ''); ?>">
+                        <div class="form-control" style="background-color: #e9ecef; border: 1px solid #ced4da;">
+                            30 buổi
+                        </div>
                     </div>
                 </div>
             </div>
@@ -304,10 +335,37 @@ ob_start();
                             </div>
                             <div class="col-md-5">
                                 <label class="form-label">Kết quả học tập <span class="required">*</span></label>
-                                <textarea class="form-control" 
-                                          name="learning_paths[<?php echo $index; ?>][learning_outcomes]"
-                                          rows="1"
-                                          required><?php echo htmlspecialchars($path['learning_outcomes']); ?></textarea>
+                                <?php 
+                                $isCustom = true;
+                                if ($learningOutcomeTemplates) {
+                                    foreach ($learningOutcomeTemplates as $template) {
+                                        if ($path['learning_outcomes'] === $template['template_text']) {
+                                            $isCustom = false;
+                                            break;
+                                        }
+                                    }
+                                }
+                                ?>
+                                <select class="form-select learning-outcomes-select" 
+                                        name="learning_paths[<?php echo $index; ?>][learning_outcomes]"
+                                        data-path-index="<?php echo $index; ?>"
+                                        required>
+                                    <option value="">-- Chọn kết quả học tập --</option>
+                                    <?php if ($learningOutcomeTemplates): ?>
+                                        <?php foreach ($learningOutcomeTemplates as $template): ?>
+                                            <option value="<?php echo htmlspecialchars($template['template_text']); ?>"
+                                                    <?php echo ($path['learning_outcomes'] === $template['template_text']) ? 'selected' : ''; ?>>
+                                                <?php echo htmlspecialchars($template['template_text']); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                    <option value="__custom__" <?php echo $isCustom ? 'selected' : ''; ?>>-- Tùy chỉnh --</option>
+                                </select>
+                                <textarea class="form-control mt-2 learning-outcomes-custom" 
+                                          name="learning_paths[<?php echo $index; ?>][learning_outcomes_custom]"
+                                          rows="2"
+                                          placeholder="Nhập kết quả học tập tùy chỉnh"
+                                          style="display: <?php echo $isCustom ? 'block' : 'none'; ?>;"><?php echo $isCustom ? htmlspecialchars($path['learning_outcomes']) : ''; ?></textarea>
                             </div>
                             <div class="col-md-1 text-end">
                                 <button type="button" class="btn btn-danger btn-sm remove-path-btn">
@@ -366,7 +424,17 @@ let pathCounter = <?php echo count($learningPaths); ?>;
 
 <?php
 $content = ob_get_clean();
-$extraJS = '<script src="../assets/js/validation.js"></script>';
+// Prepare learning outcome templates for JavaScript
+$templatesJson = json_encode(array_map(function($t) {
+    return [
+        'id' => $t['id'],
+        'text' => $t['template_text']
+    ];
+}, $learningOutcomeTemplates));
+$extraJS = '<script>
+    const learningOutcomeTemplates = ' . $templatesJson . ';
+</script>
+<script src="../assets/js/validation.js"></script>';
 include '../includes/header.php';
 echo $content;
 include '../includes/footer.php';

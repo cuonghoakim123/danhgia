@@ -1,12 +1,21 @@
 -- ========================================
 -- KYNA ENGLISH - STUDENT EVALUATION SYSTEM
 -- Database Schema
+-- Server: tungdt.io.vn:3306
+-- Database: kyna_english
 -- ========================================
+
+-- Create database if not exists
+CREATE DATABASE IF NOT EXISTS kyna_english 
+CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Use the database
+USE kyna_english;
 
 -- Drop existing tables if exists
 DROP TABLE IF EXISTS learning_paths;
 DROP TABLE IF EXISTS evaluations;
-DROP TABLE IF EXISTS courses;
+DROP TABLE IF EXISTS courses; 
 DROP TABLE IF EXISTS evaluation_criteria;
 DROP TABLE IF EXISTS students;
 
@@ -66,6 +75,8 @@ CREATE TABLE evaluations (
     evaluation_date DATE NOT NULL,
     strengths TEXT,
     improvements TEXT,
+    strengths_evaluation TEXT,
+    improvements_evaluation TEXT,
     summary TEXT,
     pdf_generated TINYINT(1) DEFAULT 0,
     pdf_path VARCHAR(500),
@@ -91,6 +102,20 @@ CREATE TABLE learning_paths (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (evaluation_id) REFERENCES evaluations(id) ON DELETE CASCADE,
     INDEX idx_evaluation_id (evaluation_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ========================================
+-- Table: learning_outcome_templates
+-- ========================================
+CREATE TABLE learning_outcome_templates (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    template_text TEXT NOT NULL,
+    category VARCHAR(100),
+    display_order INT DEFAULT 0,
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_category (category),
+    INDEX idx_display_order (display_order)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ========================================

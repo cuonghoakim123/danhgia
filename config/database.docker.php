@@ -1,14 +1,14 @@
 <?php
 /**
- * Database Configuration
+ * Docker Database Configuration
  * Kyna English - Student Evaluation System
  */
 
-// Database credentials
-define('DB_HOST', 'tungdt.io.vn');
-define('DB_NAME', 'kyna_english');
-define('DB_USER', 'root');
-define('DB_PASS', 'TungDT@2025');
+// Database credentials from environment or defaults
+define('DB_HOST', getenv('DB_HOST') ?: 'tungdt.io.vn');
+define('DB_NAME', getenv('DB_NAME') ?: 'kyna_english');
+define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_PASS', getenv('DB_PASS') ?: 'TungDT@2025');
 define('DB_CHARSET', 'utf8mb4');
 
 // Create connection
@@ -18,12 +18,17 @@ try {
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES   => false,
-        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"
+        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4",
+        PDO::ATTR_PERSISTENT         => false
     ];
     
     $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
 } catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
+    // Log error instead of displaying it
+    error_log("Database connection failed: " . $e->getMessage());
+    
+    // Show generic error to user
+    die("Không thể kết nối đến cơ sở dữ liệu. Vui lòng liên hệ quản trị viên.");
 }
 
 // Helper function to execute queries
@@ -74,4 +79,3 @@ function rollback() {
     global $pdo;
     return $pdo->rollBack();
 }
-

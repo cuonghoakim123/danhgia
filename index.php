@@ -13,6 +13,7 @@ $pageTitle = 'Tạo Đánh Giá Học Viên - Kyna English';
 $strengths = getCriteriaByType('strengths');
 $improvements = getCriteriaByType('improvements');
 $courses = getAllCourses();
+$learningOutcomeTemplates = getLearningOutcomeTemplates();
 
 ob_start();
 ?>
@@ -103,6 +104,16 @@ ob_start();
                         <p class="text-muted">Chưa có tiêu chí nào được thiết lập</p>
                     <?php endif; ?>
                 </div>
+                <div class="mt-3">
+                    <label for="strengths_evaluation" class="form-label">
+                        Đánh giá khác
+                    </label>
+                    <textarea class="form-control" 
+                              id="strengths_evaluation" 
+                              name="strengths_evaluation"
+                              rows="3"
+                              placeholder="Nhập đánh giá giác cho các điểm tốt"></textarea>
+                </div>
             </div>
         </div>
         
@@ -134,6 +145,16 @@ ob_start();
                     <?php else: ?>
                         <p class="text-muted">Chưa có tiêu chí nào được thiết lập</p>
                     <?php endif; ?>
+                </div>
+                <div class="mt-3">
+                    <label for="improvements_evaluation" class="form-label">
+                        Đánh giá khác
+                    </label>
+                    <textarea class="form-control" 
+                              id="improvements_evaluation" 
+                              name="improvements_evaluation"
+                              rows="3"
+                              placeholder="Nhập đánh giá giác cho các điểm cần cải thiện"></textarea>
                 </div>
             </div>
         </div>
@@ -189,14 +210,12 @@ ob_start();
                     </div>
                     
                     <div class="col-md-6">
-                        <label for="teacher_name" class="form-label">
-                            Tên giáo viên
+                        <label class="form-label">
+                            Thời gian học là 30 buổi
                         </label>
-                        <input type="text" 
-                               class="form-control" 
-                               id="teacher_name" 
-                               name="teacher_name"
-                               placeholder="Nhập tên giáo viên (tùy chọn)">
+                        <div class="form-control" style="background-color: #e9ecef; border: 1px solid #ced4da;">
+                            30 buổi
+                        </div>
                     </div>
                 </div>
             </div>
@@ -234,11 +253,25 @@ ob_start();
                             </div>
                             <div class="col-md-5">
                                 <label class="form-label">Kết quả học tập <span class="required">*</span></label>
-                                <textarea class="form-control" 
-                                          name="learning_paths[0][learning_outcomes]"
-                                          rows="1"
-                                          placeholder="Mô tả kết quả học tập dự kiến"
-                                          required></textarea>
+                                <select class="form-select learning-outcomes-select" 
+                                        name="learning_paths[0][learning_outcomes]"
+                                        data-path-index="0"
+                                        required>
+                                    <option value="">-- Chọn kết quả học tập --</option>
+                                    <?php if ($learningOutcomeTemplates): ?>
+                                        <?php foreach ($learningOutcomeTemplates as $template): ?>
+                                            <option value="<?php echo htmlspecialchars($template['template_text']); ?>">
+                                                <?php echo htmlspecialchars($template['template_text']); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                    <option value="__custom__">-- Tùy chỉnh --</option>
+                                </select>
+                                <textarea class="form-control mt-2 learning-outcomes-custom" 
+                                          name="learning_paths[0][learning_outcomes_custom]"
+                                          rows="2"
+                                          placeholder="Nhập kết quả học tập tùy chỉnh"
+                                          style="display: none;"></textarea>
                             </div>
                             <div class="col-md-1 text-end">
                                 <button type="button" class="btn btn-danger btn-sm remove-path-btn">
@@ -295,7 +328,17 @@ ob_start();
 
 <?php
 $content = ob_get_clean();
-$extraJS = '<script src="assets/js/validation.js"></script>';
+// Prepare learning outcome templates for JavaScript
+$templatesJson = json_encode(array_map(function($t) {
+    return [
+        'id' => $t['id'],
+        'text' => $t['template_text']
+    ];
+}, $learningOutcomeTemplates));
+$extraJS = '<script>
+    const learningOutcomeTemplates = ' . $templatesJson . ';
+</script>
+<script src="assets/js/validation.js"></script>';
 include 'includes/header.php';
 echo $content;
 include 'includes/footer.php';

@@ -4,11 +4,11 @@
  * Copy this to config/database.php and update credentials
  */
 
-// Database credentials - UPDATE THESE FOR PRODUCTION
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'kyna_english_prod');
-define('DB_USER', 'production_user');
-define('DB_PASS', 'CHANGE_THIS_PASSWORD');
+// Database credentials - PRODUCTION
+define('DB_HOST', 'tungdt.io.vn');
+define('DB_NAME', 'kyna_english');
+define('DB_USER', 'root');
+define('DB_PASS', 'TungDT@2025');
 define('DB_CHARSET', 'utf8mb4');
 
 // Create connection

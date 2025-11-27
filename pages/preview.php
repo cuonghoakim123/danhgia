@@ -113,6 +113,12 @@ ob_start();
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </ul>
+                <?php if (!empty($evaluation['strengths_evaluation'])): ?>
+                    <div class="mt-3 p-3" style="background-color: #f8f9fa; border-left: 4px solid #52c166; border-radius: 4px;">
+                        <strong>Đánh giá giác:</strong>
+                        <p class="mb-0"><?php echo nl2br(htmlspecialchars($evaluation['strengths_evaluation'])); ?></p>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
         
@@ -129,6 +135,12 @@ ob_start();
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </ul>
+                <?php if (!empty($evaluation['improvements_evaluation'])): ?>
+                    <div class="mt-3 p-3" style="background-color: #f8f9fa; border-left: 4px solid #ff9800; border-radius: 4px;">
+                        <strong>Đánh giá giác:</strong>
+                        <p class="mb-0"><?php echo nl2br(htmlspecialchars($evaluation['improvements_evaluation'])); ?></p>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
         

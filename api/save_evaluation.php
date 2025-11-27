@@ -53,14 +53,26 @@ try {
     // Process learning paths
     $processedPaths = [];
     foreach ($learningPaths as $path) {
-        if (empty($path['course_name']) || empty($path['lessons_count']) || empty($path['learning_outcomes'])) {
+        if (empty($path['course_name']) || empty($path['lessons_count'])) {
             errorResponse('Thông tin lộ trình học không đầy đủ');
+        }
+        
+        // Use custom value if provided, otherwise use selected template
+        $learningOutcomes = '';
+        if (!empty($path['learning_outcomes_custom'])) {
+            $learningOutcomes = sanitize($path['learning_outcomes_custom']);
+        } elseif (!empty($path['learning_outcomes']) && $path['learning_outcomes'] !== '__custom__') {
+            $learningOutcomes = sanitize($path['learning_outcomes']);
+        }
+        
+        if (empty($learningOutcomes)) {
+            errorResponse('Vui lòng chọn hoặc nhập kết quả học tập');
         }
         
         $processedPaths[] = [
             'course_name' => sanitize($path['course_name']),
             'lessons_count' => (int)$path['lessons_count'],
-            'learning_outcomes' => sanitize($path['learning_outcomes']),
+            'learning_outcomes' => $learningOutcomes,
             'topics' => sanitize($path['topics'] ?? '')
         ];
     }
@@ -76,6 +88,8 @@ try {
         'teacher_name' => sanitize($_POST['teacher_name'] ?? ''),
         'strengths' => implode("\n• ", $strengths),
         'improvements' => implode("\n• ", $improvements),
+        'strengths_evaluation' => sanitize($_POST['strengths_evaluation'] ?? ''),
+        'improvements_evaluation' => sanitize($_POST['improvements_evaluation'] ?? ''),
         'summary' => sanitize($_POST['summary'] ?? ''),
         'learning_paths' => $processedPaths
     ];

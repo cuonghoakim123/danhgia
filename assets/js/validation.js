@@ -27,6 +27,35 @@ $(document).ready(function() {
         }
     });
     
+    // Handle learning outcomes select change (show/hide custom textarea)
+    $(document).on('change', '.learning-outcomes-select', function() {
+        const $select = $(this);
+        const $customTextarea = $select.closest('.col-md-5').find('.learning-outcomes-custom');
+        
+        if ($select.val() === '__custom__') {
+            $customTextarea.show().attr('required', true);
+            $select.removeAttr('required');
+        } else {
+            $customTextarea.hide().removeAttr('required');
+            $select.attr('required', true);
+        }
+    });
+    
+    // Handle form submission - copy custom value to main field if custom is selected
+    $('#evaluationForm').on('submit', function() {
+        $('.learning-outcomes-select').each(function() {
+            const $select = $(this);
+            if ($select.val() === '__custom__') {
+                const $customTextarea = $select.closest('.col-md-5').find('.learning-outcomes-custom');
+                const customValue = $customTextarea.val();
+                if (customValue) {
+                    // Update the select value to the custom value
+                    $select.val(customValue);
+                }
+            }
+        });
+    });
+    
     // Create learning path row HTML
     function createPathRow(index) {
         return `
@@ -51,11 +80,21 @@ $(document).ready(function() {
                     </div>
                     <div class="col-md-5">
                         <label class="form-label">Kết quả học tập <span class="required">*</span></label>
-                        <textarea class="form-control" 
-                                  name="learning_paths[${index}][learning_outcomes]"
-                                  rows="1"
-                                  placeholder="Mô tả kết quả học tập dự kiến"
-                                  required></textarea>
+                        <select class="form-select learning-outcomes-select" 
+                                name="learning_paths[${index}][learning_outcomes]"
+                                data-path-index="${index}"
+                                required>
+                            <option value="">-- Chọn kết quả học tập --</option>
+                            ${typeof learningOutcomeTemplates !== 'undefined' && learningOutcomeTemplates ? learningOutcomeTemplates.map(t => 
+                                `<option value="${t.text.replace(/"/g, '&quot;')}">${t.text}</option>`
+                            ).join('') : ''}
+                            <option value="__custom__">-- Tùy chỉnh --</option>
+                        </select>
+                        <textarea class="form-control mt-2 learning-outcomes-custom" 
+                                  name="learning_paths[${index}][learning_outcomes_custom]"
+                                  rows="2"
+                                  placeholder="Nhập kết quả học tập tùy chỉnh"
+                                  style="display: none;"></textarea>
                     </div>
                     <div class="col-md-1 text-end">
                         <button type="button" class="btn btn-danger btn-sm remove-path-btn">
