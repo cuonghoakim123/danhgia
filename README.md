@@ -1,8 +1,8 @@
-# Kyna English - Hệ Thống Đánh Giá Học Viên
+# 123 English - Hệ Thống Đánh Giá Học Viên
 
-Hệ thống quản lý và tạo báo cáo đánh giá học viên tiếng Anh chuyên nghiệp cho Kyna English.
+Hệ thống quản lý và tạo báo cáo đánh giá học viên tiếng Anh chuyên nghiệp cho 123 English.
 
-![Kyna English Logo](assets/images/logo.svg)
+![123 English Logo](assets/images/logo.svg)
 
 ## ✅ TRẠNG THÁI DỰ ÁN
 
@@ -311,17 +311,17 @@ Mọi đóng góp đều được hoan nghênh!
 
 ## 📝 License
 
-Copyright © 2024 Kyna English. All rights reserved.
+Copyright © 2024 123 English. All rights reserved.
 
 ## 📞 Liên Hệ
 
 - **Phone**: 1900 6364 09
-- **Email**: hotro@kynaforkids.vn
-- **Website**: [kynaforkids.vn](https://kynaforkids.vn)
+- **Email**: support@123english.com
+- **Website**: [123english.com](https://123english.com)
 
 ## 🎉 Credits
 
-Developed with ❤️ for Kyna English
+Developed with ❤️ for 123 English
 
 ### Technologies Used
 
@@ -334,5 +334,5 @@ Developed with ❤️ for Kyna English
 
 ---
 
-**Made with 💚 by Kyna English Team**
+**Made with 💚 by 123 English Team**
 

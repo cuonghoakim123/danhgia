@@ -1,7 +1,7 @@
 <?php
 /**
  * Helper Functions
- * Kyna English - Student Evaluation System
+ * 123 English - Student Evaluation System
  */
 
 // Sanitize input

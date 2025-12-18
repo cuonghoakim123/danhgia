@@ -13,16 +13,15 @@
                         $footerBasePath = $isInPages ? '../' : '';
                     }
                     ?>
-                    <img src="<?php echo $footerBasePath; ?>assets/images/logo.svg" alt="Kyna English" height="40" class="mb-3" onerror="this.style.display='none'">
                     <p class="text-muted mb-2">
                         <i class="fas fa-phone text-success"></i> <strong>1900 6364 09</strong>
                     </p>
                     <p class="text-muted">
-                        <i class="fas fa-envelope text-danger"></i> <strong>hotro@kynaforkids.vn</strong>
+                        <i class="fas fa-envelope text-danger"></i> <strong>support@123english.com</strong>
                     </p>
                     <hr>
                     <p class="small text-muted mb-0">
-                        &copy; <?php echo date('Y'); ?> Kyna English. All rights reserved.
+                        &copy; <?php echo date('Y'); ?> 123 English. All rights reserved.
                     </p>
                 </div>
             </div>

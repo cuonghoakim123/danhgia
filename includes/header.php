@@ -26,7 +26,7 @@ if (!isset($GLOBALS['basePath'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="robots" content="noindex, nofollow">
-    <title><?php echo $pageTitle ?? 'Kyna English - Hệ Thống Đánh Giá Học Viên'; ?></title>
+    <title><?php echo $pageTitle ?? '123 English - Hệ Thống Đánh Giá Học Viên'; ?></title>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -46,8 +46,8 @@ if (!isset($GLOBALS['basePath'])) {
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center" href="<?php echo $basePath; ?>index.php">
-                <img src="<?php echo $basePath; ?>assets/images/logo.svg" alt="Kyna English" height="50" class="me-2" onerror="this.style.display='none'">
-                <span class="fw-bold text-primary">Kyna English</span>
+                <img src="<?php echo $basePath; ?>assets/images/1.jpg" alt="123 English" height="50" class="me-2" onerror="this.style.display='none'">
+                <span class="fw-bold text-primary">123 English</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>

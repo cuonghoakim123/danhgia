@@ -1,6 +1,6 @@
 /**
  * Form Validation and Handling
- * Kyna English Evaluation System
+ * 123 English Evaluation System
  */
 
 $(document).ready(function() {

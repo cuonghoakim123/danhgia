@@ -1,9 +1,9 @@
 #!/bin/bash
 # Setup Script for Linux/Mac
-# Kyna English Evaluation System
+# 123 English Evaluation System
 
 echo "========================================="
-echo "Kyna English - Setup Script"
+echo "123 English - Setup Script"
 echo "========================================="
 echo ""
 

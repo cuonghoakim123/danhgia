@@ -1,13 +1,13 @@
 <?php
 /**
  * Main Form - Create Student Evaluation
- * Kyna English Evaluation System
+ * 123 English Evaluation System
  */
 
 require_once 'config/database.php';
 require_once 'includes/functions.php';
 
-$pageTitle = 'Tạo Đánh Giá Học Viên - Kyna English';
+$pageTitle = 'Tạo Đánh Giá Học Viên - 123 English';
 
 // Get data for form
 $strengths = getCriteriaByType('strengths');
@@ -57,21 +57,7 @@ ob_start();
                             <option value="Thiếu niên">Thiếu niên</option>
                             <option value="Người lớn">Người lớn</option>
                         </select>
-                    </div>
-                    
-                    <div class="col-md-4">
-                        <label for="student_code" class="form-label">
-                            Mã báo danh <span class="required">*</span>
-                        </label>
-                        <input type="text" 
-                               class="form-control" 
-                               id="student_code" 
-                               name="student_code"
-                               placeholder="Ví dụ: 7009"
-                               required>
-                        <small class="form-text">Nhập mã báo danh để tự động điền thông tin</small>
-                    </div>
-                </div>
+                    </div>                  
             </div>
         </div>
         
@@ -251,43 +237,6 @@ ob_start();
                                        value="32"
                                        required>
                             </div>
-                            <div class="col-md-5">
-                                <label class="form-label">Kết quả học tập <span class="required">*</span></label>
-                                <select class="form-select learning-outcomes-select" 
-                                        name="learning_paths[0][learning_outcomes]"
-                                        data-path-index="0"
-                                        required>
-                                    <option value="">-- Chọn kết quả học tập --</option>
-                                    <?php if ($learningOutcomeTemplates): ?>
-                                        <?php foreach ($learningOutcomeTemplates as $template): ?>
-                                            <option value="<?php echo htmlspecialchars($template['template_text']); ?>">
-                                                <?php echo htmlspecialchars($template['template_text']); ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                    <option value="__custom__">-- Tùy chỉnh --</option>
-                                </select>
-                                <textarea class="form-control mt-2 learning-outcomes-custom" 
-                                          name="learning_paths[0][learning_outcomes_custom]"
-                                          rows="2"
-                                          placeholder="Nhập kết quả học tập tùy chỉnh"
-                                          style="display: none;"></textarea>
-                            </div>
-                            <div class="col-md-1 text-end">
-                                <button type="button" class="btn btn-danger btn-sm remove-path-btn">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-md-11">
-                                <label class="form-label">Chủ đề giao tiếp</label>
-                                <input type="text" 
-                                       class="form-control" 
-                                       name="learning_paths[0][topics]"
-                                       placeholder="Các chủ đề giao tiếp sẽ học">
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

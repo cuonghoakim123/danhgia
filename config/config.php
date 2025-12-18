@@ -1,13 +1,13 @@
 <?php
 /**
  * Configuration File
- * Kyna English Evaluation System
+ * 123 English Evaluation System
  * 
  * This file contains all system-wide configuration settings
  */
 
 // Application Settings
-define('APP_NAME', 'Kyna English - Student Evaluation System');
+define('APP_NAME', '123 English - Student Evaluation System');
 define('APP_VERSION', '1.0.0');
 
 // Base URL - Auto detect
@@ -22,8 +22,8 @@ define('BASE_PATH', $basePath ? $basePath . '/' : '/');
 
 // Contact Information
 define('CONTACT_PHONE', '1900 6364 09');
-define('CONTACT_EMAIL', 'hotro@kynaforkids.vn');
-define('CONTACT_WEBSITE', 'https://kynaforkids.vn');
+define('CONTACT_EMAIL', 'support@123english.com');
+define('CONTACT_WEBSITE', 'https://123english.com');
 
 // System Settings
 define('TIMEZONE', 'Asia/Ho_Chi_Minh');
@@ -49,8 +49,8 @@ ini_set('display_errors', 1);
 // ini_set('error_log', dirname(__FILE__) . '/../logs/error.log');
 
 // PDF Settings
-define('PDF_AUTHOR', 'Kyna English');
-define('PDF_CREATOR', 'Kyna English Evaluation System');
+define('PDF_AUTHOR', '123 English');
+define('PDF_CREATOR', '123 English Evaluation System');
 define('PDF_OUTPUT_DIR', dirname(__FILE__) . '/../pdf_output/');
 
 // Upload Settings (if needed in future)

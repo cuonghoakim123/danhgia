@@ -1,5 +1,5 @@
 /**
- * Main JavaScript for Kyna English Evaluation System
+ * Main JavaScript for 123 English Evaluation System
  */
 
 // Document ready

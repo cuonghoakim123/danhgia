@@ -1,4 +1,4 @@
-# Kyna English - Database Setup Guide
+# 123 English - Database Setup Guide
 
 ## Option 1: Using phpMyAdmin (Recommended for Beginners)
 
@@ -204,5 +204,5 @@ mysql -u root -p kyna_english < backup_20240101.sql
 
 ## Need Help?
 
-Contact: hotro@kynaforkids.vn
+Contact: support@123english.com
 

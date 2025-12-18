@@ -1,5 +1,5 @@
 -- ========================================
--- KYNA ENGLISH - STUDENT EVALUATION SYSTEM
+-- 123 ENGLISH - STUDENT EVALUATION SYSTEM
 -- Database Schema
 -- Server: tungdt.io.vn:3306
 -- Database: kyna_english
